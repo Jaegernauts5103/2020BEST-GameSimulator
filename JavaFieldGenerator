@@ -19,6 +19,7 @@ var areas = function() {
     line(25, 499, 150, 499);
     line(150, 499, 150, 375);
     //robot starting area
+    line(150, 460, 250, 460);
 };
 
 var cells = function() {
