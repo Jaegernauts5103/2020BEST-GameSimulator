@@ -9,6 +9,36 @@ var board = function() {
     }
 };
 
+var x = 175;
+var y = 400;
+
+var robot = function() {
+    fill(0, 238, 255);
+    rect(x, y, 50, 50);
+    rect(x + 12, y - 25, 5, 25);
+    rect(x + 32, y - 25, 5, 25);
+    fill(0, 0, 0);
+    ellipse(x + 34, y + 14, 3, 4);
+    ellipse(x + 15, y + 14, 3, 4);
+    arc(x + 25, y + 33, 30, 20, -26, 204);
+};
+
+var moveUp = function() {
+    y -= 2;
+};
+
+var moveDown = function() {
+    y += 2;
+};
+
+var moveRight = function() {
+    x += 2;
+};
+
+var moveLeft = function() {
+    x -= 2;
+};
+
 var areas = function() {
     //spotter area
     line(375, 375, 375, 499);
@@ -25,29 +55,11 @@ var areas = function() {
 var cells = function() {
     fill(115, 115, 0);
     //draw cells 1
-    rect(34, 38, 10.4, 10.4);
-    rect(84, 88, 10.4, 10.4);
-    rect(134, 88, 10.4, 10.4);
-    rect(184, 138, 10.4, 10.4);
-    rect(234, 88, 10.4, 10.4);
-    rect(284, 88, 10.4, 10.4);
-    rect(334, 88, 10.4, 10.4);
+    var cells1 = [rect(34, 38, 10.4, 10.4), rect(84, 88, 10.4, 10.4), rect(134, 88, 10.4, 10.4), rect(184, 138, 10.4, 10.4), rect(234, 88, 10.4, 10.4), rect(284, 88, 10.4, 10.4), rect(334, 88, 10.4, 10.4)];
     //draw cells 2
-    rect(54, 38, 10.4, 10.4);
-    rect(104, 88, 10.4, 10.4);
-    rect(154, 88, 10.4, 10.4);
-    rect(204, 138, 10.4, 10.4);
-    rect(254, 88, 10.4, 10.4);
-    rect(304, 88, 10.4, 10.4);
-    rect(354, 88, 10.4, 10.4);
+    var cells2 = [rect(54, 38, 10.4, 10.4), rect(104, 88, 10.4, 10.4), rect(154, 88, 10.4, 10.4), rect(204, 138, 10.4, 10.4), rect(254, 88, 10.4, 10.4), rect(304, 88, 10.4, 10.4), rect(354, 88, 10.4, 10.4)];
     //draw cells 3
-    rect(44, 55, 10.4, 10.4);
-    rect(94, 105, 10.4, 10.4);
-    rect(144, 105, 10.4, 10.4);
-    rect(194, 155, 10.4, 10.4);
-    rect(244, 105, 10.4, 10.4);
-    rect(294, 105, 10.4, 10.4);
-    rect(344, 105, 10.4, 10.4);
+    var cells3 = [rect(44, 55, 10.4, 10.4), rect(94, 105, 10.4, 10.4), rect(144, 105, 10.4, 10.4), rect(194, 155, 10.4, 10.4), rect(244, 105, 10.4, 10.4), rect(294, 105, 10.4, 10.4), rect(344, 105, 10.4, 10.4)];
 };
 
 //infect cells
@@ -64,36 +76,51 @@ var immunecell6 = floor(random(1, 8));
 
 //display infected/immune cells
 var display = function() {
-    keyPressed = function() {
-        text("Infected cell column " + infectedcell1 + " top left cell", 385, 40);
-        text("Infected cell column " + infectedcell2 + " top right cell", 385, 65);
-        text("Infected cell column " + infectedcell3 + " bottom cell", 385, 90);
-        text("Immune cell column " + immunecell1 + " top left cell", 385, 140);
-        text("Immune cell column " + immunecell2 + " top left cell", 385, 165);
-        text("Immune cell column " + immunecell3 + " top right cell", 385, 190);
-        text("Immune cell column " + immunecell4 + " top right cell", 385, 215);
-        text("Immune cell column " + immunecell5 + " bottom cell", 385, 240);
-        text("Immune cell column " + immunecell6 + " bottom cell", 385, 265);
-        text("All other cells are normal", 385, 310);
-    };
+    fill(0, 0, 0);
+    textSize(13);
+    text("Infected cell column " + infectedcell1 + " top left cell", 385, 40);
+    text("Infected cell column " + infectedcell2 + " top right cell", 385, 65);
+    text("Infected cell column " + infectedcell3 + " bottom cell", 385, 90);
+    text("Immune cell column " + immunecell1 + " top left cell", 385, 140);
+    text("Immune cell column " + immunecell2 + " top left cell", 385, 165);
+    text("Immune cell column " + immunecell3 + " top right cell", 385, 190);
+    text("Immune cell column " + immunecell4 + " top right cell", 385, 215);
+    text("Immune cell column " + immunecell5 + " bottom cell", 385, 240);
+    text("Immune cell column " + immunecell6 + " bottom cell", 385, 265);
+    text("All other cells are normal", 385, 310);
 };
 
 draw = function() {
+    background(255, 255, 255);
     display();
     board();
     cells();
     areas();
+    robot();
+    //move robot
+    if (keyIsPressed && keyCode === 39) {
+        moveRight();
+    }
+    if (keyIsPressed && keyCode === 37) {
+        moveLeft(); 
+    }
+    if (keyIsPressed && keyCode === 40) {
+        moveDown(); 
+    }
+    if (keyIsPressed && keyCode === 38) {
+        moveUp();
+    }
     //check for immune and infected cells
     if (immunecell1 ===  infectedcell1 || immunecell2 ===  infectedcell1 || immunecell1 === immunecell2) {
-        immunecell1 = floor(random(1, 7));
-        immunecell2 = floor(random(1, 7));
+        immunecell1 = floor(random(1, 8));
+        immunecell2 = floor(random(1, 8));
     }
     if (immunecell3 ===  infectedcell2 || immunecell4 ===  infectedcell2 || immunecell3 === immunecell4) {
-        immunecell3 = floor(random(1, 7));
-        immunecell4 = floor(random(1, 7));
+        immunecell3 = floor(random(1, 8));
+        immunecell4 = floor(random(1, 8));
     }
     if (immunecell5 ===  infectedcell3 || immunecell6 ===  infectedcell3 || immunecell5 === immunecell6) {
-        immunecell5 = floor(random(1, 7));
-        immunecell6 = floor(random(1, 7));
+        immunecell5 = floor(random(1, 8));
+        immunecell6 = floor(random(1, 8));
     }
 };
