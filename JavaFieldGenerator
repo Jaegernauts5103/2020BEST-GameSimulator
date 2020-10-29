@@ -1,1 +1,98 @@
+var board = function() {
+    //vertical lines
+    for (var i = 0; i < 8; i++) {
+        line(i*50+25, 25, i*50+25, 375);
+    }
+    //horizontal lines
+    for (var i = 0; i < 8; i++){
+        line(25, i*50+25, 375, i*50+25);
+    }
+};
 
+var areas = function() {
+    //spotter area
+    line(375, 375, 375, 499);
+    line(375, 499, 250, 499);
+    line(250, 499, 250, 375);
+    //driver area
+    line(25, 375, 25, 499);
+    line(25, 499, 150, 499);
+    line(150, 499, 150, 375);
+    //robot starting area
+};
+
+var cells = function() {
+    fill(115, 115, 0);
+    //draw cells 1
+    rect(34, 38, 10.4, 10.4);
+    rect(84, 88, 10.4, 10.4);
+    rect(134, 88, 10.4, 10.4);
+    rect(184, 138, 10.4, 10.4);
+    rect(234, 88, 10.4, 10.4);
+    rect(284, 88, 10.4, 10.4);
+    rect(334, 88, 10.4, 10.4);
+    //draw cells 2
+    rect(54, 38, 10.4, 10.4);
+    rect(104, 88, 10.4, 10.4);
+    rect(154, 88, 10.4, 10.4);
+    rect(204, 138, 10.4, 10.4);
+    rect(254, 88, 10.4, 10.4);
+    rect(304, 88, 10.4, 10.4);
+    rect(354, 88, 10.4, 10.4);
+    //draw cells 3
+    rect(44, 55, 10.4, 10.4);
+    rect(94, 105, 10.4, 10.4);
+    rect(144, 105, 10.4, 10.4);
+    rect(194, 155, 10.4, 10.4);
+    rect(244, 105, 10.4, 10.4);
+    rect(294, 105, 10.4, 10.4);
+    rect(344, 105, 10.4, 10.4);
+};
+
+//infect cells
+var infectedcell1 = floor(random(1, 8));
+var infectedcell2 = floor(random(1, 8));
+var infectedcell3 = floor(random(1, 8));
+//make cells immune
+var immunecell1 = floor(random(1, 8));
+var immunecell2 = floor(random(1, 8));
+var immunecell3 = floor(random(1, 8));
+var immunecell4 = floor(random(1, 8));
+var immunecell5 = floor(random(1, 8));
+var immunecell6 = floor(random(1, 8));
+
+//display infected/immune cells
+var display = function() {
+    keyPressed = function() {
+        text("Infected cell column " + infectedcell1 + " top left cell", 385, 40);
+        text("Infected cell column " + infectedcell2 + " top right cell", 385, 65);
+        text("Infected cell column " + infectedcell3 + " bottom cell", 385, 90);
+        text("Immune cell column " + immunecell1 + " top left cell", 385, 140);
+        text("Immune cell column " + immunecell2 + " top left cell", 385, 165);
+        text("Immune cell column " + immunecell3 + " top right cell", 385, 190);
+        text("Immune cell column " + immunecell4 + " top right cell", 385, 215);
+        text("Immune cell column " + immunecell5 + " bottom cell", 385, 240);
+        text("Immune cell column " + immunecell6 + " bottom cell", 385, 265);
+        text("All other cells are normal", 385, 310);
+    };
+};
+
+draw = function() {
+    display();
+    board();
+    cells();
+    areas();
+    //check for immune and infected cells
+    if (immunecell1 ===  infectedcell1 || immunecell2 ===  infectedcell1 || immunecell1 === immunecell2) {
+        immunecell1 = floor(random(1, 7));
+        immunecell2 = floor(random(1, 7));
+    }
+    if (immunecell3 ===  infectedcell2 || immunecell4 ===  infectedcell2 || immunecell3 === immunecell4) {
+        immunecell3 = floor(random(1, 7));
+        immunecell4 = floor(random(1, 7));
+    }
+    if (immunecell5 ===  infectedcell3 || immunecell6 ===  infectedcell3 || immunecell5 === immunecell6) {
+        immunecell5 = floor(random(1, 7));
+        immunecell6 = floor(random(1, 7));
+    }
+};
