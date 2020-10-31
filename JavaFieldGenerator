@@ -58,7 +58,7 @@ var moveLeft = function() {
 };
 
 //define super vaccine's x
-var supervaccinex = 325;
+var supervaccinex = 270;
 //define super vaccine's y
 var supervacciney = 394;
 //create super vaccine
@@ -91,7 +91,7 @@ var cells3y = [55, 105, 105, 155, 105, 105, 105];
 
 //create cells
 var cells = function() {
-    fill(181, 181, 92);
+    fill(255, 0, 0);
     //define cells 1
     var cells1 = [rect(cells1x[0], cells1y[0], 10.4, 10.4), rect(cells1x[1], cells1y[1], 10.4, 10.4), rect(cells1x[2], cells1y[2], 10.4, 10.4), rect(cells1x[3], cells1y[3], 10.4, 10.4), rect(cells1x[4], cells1y[4], 10.4, 10.4), rect(cells1x[5], cells1y[5], 10.4, 10.4), rect(cells1x[6], cells1y[6], 10.4, 10.4)];
     //define cells 2
@@ -180,6 +180,18 @@ var moveSuperVaccine = function() {
     }
 };
 
+//load vaccine
+var v = 0;
+var loadVaccine = function() {
+    keyReleased = function() {
+        if (keyCode === 16) {
+            vaccinex[v] = x + 45;
+            vacciney[v] = y - 7;
+            v++;
+        }
+    };
+};
+
 draw = function() {
     background(255, 255, 255);
     display();
@@ -192,6 +204,7 @@ draw = function() {
     moveCells();
     moveVaccines();
     moveSuperVaccine();
+    loadVaccine();
     //move robot
     if (keyIsPressed && keyCode === 39) {
         moveRight();
