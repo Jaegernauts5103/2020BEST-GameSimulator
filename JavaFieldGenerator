@@ -1,3 +1,4 @@
+//draw the board
 var board = function() {
     //vertical lines
     for (var i = 0; i < 8; i++) {
@@ -9,9 +10,24 @@ var board = function() {
     }
 };
 
+var areas = function() {
+    //spotter area
+    line(375, 375, 375, 499);
+    line(375, 499, 250, 499);
+    line(250, 499, 250, 375);
+    //driver area
+    line(25, 375, 25, 499);
+    line(25, 499, 150, 499);
+    line(150, 499, 150, 375);
+    //robot starting area
+    line(150, 460, 250, 460);
+};
+
+//define where robot is
 var x = 175;
 var y = 400;
 
+//draw robot
 var robot = function() {
     fill(0, 238, 255);
     rect(x, y, 50, 50);
@@ -23,6 +39,7 @@ var robot = function() {
     arc(x + 25, y + 33, 30, 20, -26, 204);
 };
 
+//movement for the robot
 var moveUp = function() {
     y -= 2;
 };
@@ -39,28 +56,30 @@ var moveLeft = function() {
     x -= 2;
 };
 
-var areas = function() {
-    //spotter area
-    line(375, 375, 375, 499);
-    line(375, 499, 250, 499);
-    line(250, 499, 250, 375);
-    //driver area
-    line(25, 375, 25, 499);
-    line(25, 499, 150, 499);
-    line(150, 499, 150, 375);
-    //robot starting area
-    line(150, 460, 250, 460);
-};
+//define cells1's x
+var cells1x = [34, 84, 134, 184, 234, 284, 334];
+//define cells1's y
+var cells1y = [38, 88, 88, 138, 88, 88, 88];
+//define cells2's x
+var cells2x = [54, 104, 154, 204, 254, 304, 354];
+//define cells2's y
+var cells2y = [38, 88, 88, 138, 88, 88, 88];
+//define cells3's x
+var cells3x = [44, 94, 144, 194, 244, 294, 344];
+//define cells4's y
+var cells3y = [55, 105, 105, 155, 105, 105, 105];
 
+//create cells
 var cells = function() {
     fill(115, 115, 0);
-    //draw cells 1
-    var cells1 = [rect(34, 38, 10.4, 10.4), rect(84, 88, 10.4, 10.4), rect(134, 88, 10.4, 10.4), rect(184, 138, 10.4, 10.4), rect(234, 88, 10.4, 10.4), rect(284, 88, 10.4, 10.4), rect(334, 88, 10.4, 10.4)];
-    //draw cells 2
-    var cells2 = [rect(54, 38, 10.4, 10.4), rect(104, 88, 10.4, 10.4), rect(154, 88, 10.4, 10.4), rect(204, 138, 10.4, 10.4), rect(254, 88, 10.4, 10.4), rect(304, 88, 10.4, 10.4), rect(354, 88, 10.4, 10.4)];
-    //draw cells 3
-    var cells3 = [rect(44, 55, 10.4, 10.4), rect(94, 105, 10.4, 10.4), rect(144, 105, 10.4, 10.4), rect(194, 155, 10.4, 10.4), rect(244, 105, 10.4, 10.4), rect(294, 105, 10.4, 10.4), rect(344, 105, 10.4, 10.4)];
+    //define cells 1
+    var cells1 = [rect(cells1x[0], cells1y[0], 10.4, 10.4), rect(cells1x[1], cells1y[1], 10.4, 10.4), rect(cells1x[2], cells1y[2], 10.4, 10.4), rect(cells1x[3], cells1y[3], 10.4, 10.4), rect(cells1x[4], cells1y[4], 10.4, 10.4), rect(cells1x[5], cells1y[5], 10.4, 10.4), rect(cells1x[6], cells1y[6], 10.4, 10.4)];
+    //define cells 2
+    var cells2 = [rect(cells2x[0], cells2y[0], 10.4, 10.4), rect(cells2x[1], cells2y[1], 10.4, 10.4), rect(cells2x[2], cells2y[2], 10.4, 10.4), rect(cells2x[3], cells2y[3], 10.4, 10.4), rect(cells2x[4], cells2y[4], 10.4, 10.4), rect(cells2x[5], cells2y[5], 10.4, 10.4), rect(cells2x[6], cells2y[6], 10.4, 10.4)];
+    //define cells 3
+    var cells3 = [rect(cells3x[0], cells3y[0], 10.4, 10.4), rect(cells3x[1], cells3y[1], 10.4, 10.4), rect(cells3x[2], cells3y[2], 10.4, 10.4), rect(cells3x[3], cells3y[3], 10.4, 10.4), rect(cells3x[4], cells3y[4], 10.4, 10.4), rect(cells3x[5], cells3y[5], 10.4, 10.4), rect(cells3x[6], cells3y[6], 10.4, 10.4)];
 };
+
 
 //infect cells
 var infectedcell1 = floor(random(1, 8));
@@ -90,13 +109,41 @@ var display = function() {
     text("All other cells are normal", 385, 310);
 };
 
+//move cells
+var moveCells = function () {
+    for (var i = 0; i < 7; i++) {
+        if (x + 17 <= cells1x[i] && x + 23 >= cells1x[i] && y - 25 <= cells1y[i] && y - 10 >= cells1y[i]) {
+            cells1x[i] = x + 20;
+            cells1y[i] = y - 12;
+            if (keyIsPressed && keyCode === 32) {
+                cells1y[i] = y - 32;
+            }
+        }
+        if (x + 17 <= cells2x[i] && x + 23 >= cells2x[i] && y - 25 <= cells2y[i] && y - 10 >= cells2y[i]) {
+            cells2x[i] = x + 20;
+            cells2y[i] = y - 12;
+            if (keyIsPressed && keyCode === 32) {
+                cells2y[i] = y - 32;
+            }
+        }
+        if (x + 17 <= cells3x[i] && x + 23 >= cells3x[i] && y - 25 <= cells3y[i] && y - 10 >= cells3y[i]) {
+            cells3x[i] = x + 20;
+            cells3y[i] = y - 12;
+            if (keyIsPressed && keyCode === 32) {
+                cells3y[i] = y - 32;
+            }
+        }
+    }
+};
+
 draw = function() {
     background(255, 255, 255);
     display();
     board();
-    cells();
     areas();
+    cells();
     robot();
+    moveCells();
     //move robot
     if (keyIsPressed && keyCode === 39) {
         moveRight();
