@@ -33,6 +33,7 @@ var robot = function() {
     rect(x, y, 50, 50);
     rect(x + 12, y - 25, 5, 25);
     rect(x + 32, y - 25, 5, 25);
+    rect(x + 50, y - 11, 5, 15);
     fill(0, 0, 0);
     ellipse(x + 34, y + 14, 3, 4);
     ellipse(x + 15, y + 14, 3, 4);
@@ -54,6 +55,16 @@ var moveRight = function() {
 
 var moveLeft = function() {
     x -= 2;
+};
+
+//define vaccine's x
+var vaccinex = [300, 300, 300];
+//define vaccine's y
+var vacciney = [400, 425, 450];
+//create vaccine
+var vaccine = function() {
+    fill(255, 255, 0);
+    var vaccines = [ellipse(vaccinex[0], vacciney[0], 10, 10), ellipse(vaccinex[1], vacciney[1], 10, 10), ellipse(vaccinex[2], vacciney[2], 10, 10)];
 };
 
 //define cells1's x
@@ -115,22 +126,34 @@ var moveCells = function () {
         if (x + 17 <= cells1x[i] && x + 23 >= cells1x[i] && y - 25 <= cells1y[i] && y - 10 >= cells1y[i]) {
             cells1x[i] = x + 20;
             cells1y[i] = y - 12;
-            if (keyIsPressed && keyCode === 32) {
+            if (keyIsPressed && keyCode === 81) {
                 cells1y[i] = y - 32;
             }
         }
         if (x + 17 <= cells2x[i] && x + 23 >= cells2x[i] && y - 25 <= cells2y[i] && y - 10 >= cells2y[i]) {
             cells2x[i] = x + 20;
             cells2y[i] = y - 12;
-            if (keyIsPressed && keyCode === 32) {
+            if (keyIsPressed && keyCode === 81) {
                 cells2y[i] = y - 32;
             }
         }
         if (x + 17 <= cells3x[i] && x + 23 >= cells3x[i] && y - 25 <= cells3y[i] && y - 10 >= cells3y[i]) {
             cells3x[i] = x + 20;
             cells3y[i] = y - 12;
-            if (keyIsPressed && keyCode === 32) {
+            if (keyIsPressed && keyCode === 81) {
                 cells3y[i] = y - 32;
+            }
+        }
+    }
+};
+
+var moveVaccines = function() {
+    for (var i = 0; i < 7; i++) {
+        if (x + 42 <= vaccinex[i] && x + 46 >= vaccinex[i] && y - 10 <= vacciney[i] && y - 5 >= vacciney[i]) {
+            vaccinex[i] = x + 44;
+            vacciney[i] = y - 7;
+            if (keyIsPressed && keyCode === 69) {
+                vacciney[i] = y - 20;
             }
         }
     }
@@ -141,9 +164,11 @@ draw = function() {
     display();
     board();
     areas();
+    vaccine();
     cells();
     robot();
     moveCells();
+    moveVaccines();
     //move robot
     if (keyIsPressed && keyCode === 39) {
         moveRight();
